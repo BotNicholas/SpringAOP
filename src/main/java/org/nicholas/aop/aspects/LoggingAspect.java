@@ -1,10 +1,7 @@
 package org.nicholas.aop.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -43,5 +40,16 @@ public class LoggingAspect {
     public void afterThrowingGetBookAdvice(){
         System.out.println("Exception thrown");
     }
+
+    @Around("execution(public * get*(String))")
+    public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        System.out.println("aroundAdvice: Begin");
+        System.out.println("Method " + proceedingJoinPoint.getSignature().getName() + " call");
+        Object object = proceedingJoinPoint.proceed();
+        System.out.println("aroundAdvice: End");
+
+        return object;
+    }
+
 }
 //AspectJ ... Language
